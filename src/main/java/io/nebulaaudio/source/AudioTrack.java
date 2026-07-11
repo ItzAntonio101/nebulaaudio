@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Base64;
-import java.util.nio.charset.StandardCharsets;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A resolved, playable track. `playbackUri` is what FFmpegBridge will actually
