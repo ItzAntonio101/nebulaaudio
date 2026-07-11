@@ -20,7 +20,7 @@ jobs:
           java-version: '21'
 
       - name: Generate Gradle wrapper
-        run: gradle wrapper --gradle-version 8.7
+        run: gradle wrapper --gradle-version 8.10.2
 
       - name: Build jar
         run: ./gradlew build --no-daemon
@@ -31,7 +31,6 @@ jobs:
           name: NebulaAudio
           path: build/libs/NebulaAudio.jar
 
-      
       - name: Create GitHub Release with jar attached
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
