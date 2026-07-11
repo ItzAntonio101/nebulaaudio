@@ -1,0 +1,26 @@
+name: Debug Concentus Dependency
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Generate Gradle wrapper
+        run: gradle wrapper --gradle-version 8.10.2
+
+      - name: Show dependency tree
+        run: ./gradlew dependencies --configuration compileClasspath --no-daemon
+
+      - name: Show actual resolved jar files
+        run: |
+          ./gradlew -q dependencies --configuration compileClasspath --no-daemon | grep -i concentus || echo "CONCENTUS NOT IN TREE AT ALL"
+          find ~/.gradle/caches -iname "*concentus*" 2>/dev/null || echo "NO CONCENTUS FILES IN GRADLE CACHE"
