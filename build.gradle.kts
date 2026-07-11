@@ -35,7 +35,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.6")
 
     // Opus JNI bindings (native codec wrapper)
-    implementation("com.github.jaredmdobson:concentus:1.1") // pure-java Opus fallback (no native lib needed)
+    implementation("com.github.jaredmdobson:concentus:1.0.2") // pure-java Opus fallback (no native lib needed)
 
     // HTTP client for source resolution
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
