@@ -1,6 +1,6 @@
 package io.nebulaaudio.audio;
 
-import org.concentus.OpusApplication;
+import io.github.jaredmdobson.concentus.OpusApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,13 +19,13 @@ public class OpusEncoder {
     public static final int FRAME_SIZE_MS = 20;
     public static final int FRAME_SIZE_SAMPLES = FFmpegBridge.SAMPLE_RATE / 1000 * FRAME_SIZE_MS; // 960 samples/channel
 
-    private final org.concentus.OpusEncoder encoder;
+    private final io.github.jaredmdobson.concentus.OpusEncoder encoder;
     private final int bitrate;
 
     private OpusEncoder(int bitrateBps) {
         this.bitrate = bitrateBps;
         try {
-            this.encoder = new org.concentus.OpusEncoder(FFmpegBridge.SAMPLE_RATE, FFmpegBridge.CHANNELS, OpusApplication.OPUS_APPLICATION_AUDIO);
+            this.encoder = new io.github.jaredmdobson.concentus.OpusEncoder(FFmpegBridge.SAMPLE_RATE, FFmpegBridge.CHANNELS, OpusApplication.OPUS_APPLICATION_AUDIO);
             this.encoder.setBitrate(bitrateBps);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to initialize Opus encoder", e);
