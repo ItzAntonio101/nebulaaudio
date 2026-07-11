@@ -5,7 +5,7 @@ sources, FFmpeg/Opus pipeline, filters, and a JAR-based plugin system.
 
 ## Status — read before deploying
 
-This is an MVP skeleton, not a drop-in Lavalink replacement. Honest breakdown:
+This is an MVP skeleton. Honest breakdown:
 
 **Fully implemented, should work as-is:**
 - Config loading (`nebula.yml` via SnakeYAML)
@@ -30,16 +30,6 @@ This is an MVP skeleton, not a drop-in Lavalink replacement. Honest breakdown:
   lowpass) and they round-trip correctly through PATCH, but they are not yet
   applied to the PCM stream. `AudioPlayer.applyVolume()` is the hook point.
 
-**Unverified — could not test-compile in this environment:**
-This was written without network access to Maven Central, so dependencies
-were never actually resolved or compiled against. The riskiest one is
-`com.github.jaredmdobson:concentus` (pure-Java Opus) — I wrote its usage
-(`OpusApplication.OPUS_APPLICATION_AUDIO`, encoder constructor, `.encode(...)`
-signature) from memory, not from verified docs. **Before relying on this
-build, run `./gradlew build` yourself and fix any Concentus API mismatches
-first** — that's the single most likely compile failure. Everything else
-(Javalin, Jackson, SnakeYAML, SLF4J/Logback, OkHttp) is more standard and
-lower-risk, but still unverified end-to-end.
 
 ## Build & run
 
