@@ -1,27 +1,80 @@
+# ==========================================================================
+# nebula.yml — example configuration for NebulaAudio
+# ==========================================================================
+# Copy this file next to NebulaAudio.jar (or set -Dnebula.config=/path/to/this)
+# and adjust values for your deployment. Every field shown here is optional
+# unless noted — NebulaAudio falls back to sane defaults for anything omitted.
+# ==========================================================================
+
 server:
+  # Interface to bind the REST/WebSocket API to.
+  # Use 0.0.0.0 to accept connections from other hosts/containers, or
+  # 127.0.0.1 to restrict to local-only access (e.g. bot running on the same
+  # machine/pod as the node).
   host: 0.0.0.0
+
+  # Port for both the REST API and the /v4/websocket endpoint.
   port: 2333
 
 nebula:
+  # Shared secret clients must send in the `Authorization` header on every
+  # REST call and on the WebSocket handshake. Treat this like a password —
+  # don't commit a real one to a public repo. Rotate it if it ever leaks.
   password: "supersecret"
 
+# ---------------------------------------------------------------------------
+# Audio sources — toggle which source managers are registered at startup.
+# Disabling a source here means identifiers/prefixes for it are never
+# matched, and /v4/loadtracks returns loadType: "empty" for them instead of
+# attempting to load anything.
+# ---------------------------------------------------------------------------
 sources:
-  youtube: true
-  soundcloud: true
-  deezer: true
-  spotify: true
-  http: true
-  local: true
+  youtube: true      # ytsearch: / youtube.com / youtu.be — NOT YET IMPLEMENTED, see source/YoutubeSource.java
+  soundcloud: true   # scsearch: / soundcloud.com          — NOT YET IMPLEMENTED, see source/SoundCloudSource.java
+  deezer: true       # dzsearch: / deezer.com               — NOT YET IMPLEMENTED, see source/DeezerSource.java
+  spotify: true      # spsearch: / spotify.com / spotify:   — metadata-only by design, see source/SpotifySource.java
+  http: true         # http:// and https:// direct media URLs — fully working
+  local: true        # file: local filesystem paths           — fully working
 
+# ---------------------------------------------------------------------------
+# Player defaults — applied to every new player when it's first created.
+# Individual players can override these later via PATCH /v4/sessions/{id}/players/{guildId}.
+# ---------------------------------------------------------------------------
 player:
+  # Starting volume, 0-1000 (100 = normal/unity gain, matching Lavalink's scale).
   default-volume: 100
+
+  # Opus encoder quality knob, 0-10. Roughly maps to bitrate:
+  #   0  -> ~32kbps  (lowest quality, cheapest CPU/bandwidth)
+  #   10 -> ~160kbps (highest quality, most CPU/bandwidth)
+  # 10 is a reasonable default; drop this if you're running many concurrent
+  # players on constrained hardware (e.g. a small Pterodactyl/HiddenCloud box).
   opus-quality: 10
 
+# ---------------------------------------------------------------------------
+# Cluster mode — optional multi-node setup for load distribution / failover.
+# Currently: this section is loaded and logged at startup, but node
+# discovery/failover/player-migration networking is NOT implemented yet.
+# Safe to leave enabled: false until that lands.
+# ---------------------------------------------------------------------------
 cluster:
   enabled: false
+
+  # How new players should be assigned to a node when clustering is active.
+  # least-load: pick whichever node currently has the fewest playing players.
   strategy: least-load
+
+  # Other NebulaAudio nodes in this cluster, e.g.:
+  # nodes:
+  #   - "http://nebula-node-2.internal:2333"
+  #   - "http://nebula-node-3.internal:2333"
   nodes: []
 
+# ---------------------------------------------------------------------------
+# Logging — written to logs/nebula.log (rotated daily, 14-day retention) in
+# addition to stdout. Level follows standard SLF4J/Logback levels:
+# TRACE, DEBUG, INFO, WARN, ERROR.
+# ---------------------------------------------------------------------------
 logging:
   level: INFO
   file: logs/nebula.log
