@@ -6,8 +6,7 @@ sources, FFmpeg/Opus pipeline, filters, and a JAR-based plugin system.
 ## NebulaAudio Compiled version
 If you can't compile the repo
 use
-``` git clone https://github.com/ItzAntonio101/nebulaadudio-compiled.git
-```
+https://github.com/ItzAntonio101/nebulaadudio-compiled
 then
 ```
 java -jar NebulaAudio.jar
