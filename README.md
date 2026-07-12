@@ -3,6 +3,16 @@
 A Lavalink-style Discord audio node — REST + WebSocket API, pluggable audio
 sources, FFmpeg/Opus pipeline, filters, and a JAR-based plugin system.
 
+## NebulaAudio Compiled version
+If you can't compile the repo
+use
+``` git clone https://github.com/ItzAntonio101/nebulaadudio-compiled.git
+```
+then
+```
+java -jar NebulaAudio.jar
+```
+
 ## Status — read before deploying
 
 This is an MVP skeleton. Honest breakdown:
